@@ -107,7 +107,7 @@ export async function unregisterBackgroundFetch() {
     return await BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
   } catch (error) {
    
-    console.error('Task unregistration failed:', error);
+    // console.error('Task unregistration failed:', error);
     return error;
   }
 }

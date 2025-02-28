@@ -60,7 +60,7 @@ export default function HomeScreen() {
   // Toggle Button
   const handleToggle = () => {
     setupNotifications();
-    sendNotification();
+    // sendNotification();  // test push notification for ios..
     dispatch(toggleService());
   };
 
@@ -83,7 +83,7 @@ export default function HomeScreen() {
             value={isEnabled}
             onValueChange={handleToggle}
             disabled={isLoading}
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            trackColor={{ false: "#767577", true: "#AEEA94" }}
             thumbColor={isEnabled ? "#4CAF50" : "#f4f3f4"}
           />
         </View>

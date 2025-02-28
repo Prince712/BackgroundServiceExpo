@@ -39,6 +39,9 @@
       "eas": {
         "projectId": "81b0f40d-9a07-4da3-93e2-a0c12e139f60"
       }
+    },
+    "android": {
+      "package": "com.pravin.dabekar7.backgroundservices"
     }
   }
 }
