@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Bell } from 'lucide-react-native';
+import Feather from '@expo/vector-icons/Feather';
 
 export default function TabLayout() {
   return (
@@ -9,7 +9,7 @@ export default function TabLayout() {
         options={{
           title: 'Background Services',
           tabBarIcon: ({ color, size }) => (
-            <Bell size={size} color={color} />
+            <Feather name="bell"size={size} color={color} />
           ),
         }}
       />

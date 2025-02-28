@@ -11,7 +11,7 @@ import {
   sendNotification,
 } from "../services/backgroundService";
 import Slider from "@react-native-community/slider";
-import { Bell, BellOff } from "lucide-react-native";
+import Feather from '@expo/vector-icons/Feather';
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.header}>
-          {isEnabled ? <Bell size={24} color="#4CAF50" /> : <BellOff size={24} color="#757575" />}
+          {isEnabled ? <Feather name="bell" size={24} color="#4CAF50" /> : <Feather name="bell-off" size={24} color="#757575" />}
           <Text style={styles.title}>Background Alert Service</Text>
         </View>
 
