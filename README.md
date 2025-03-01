@@ -32,10 +32,7 @@ A modern Expo-based React Native application that runs background services to pl
 ## 📸 **App Screenshots**  
 
 ### **🔊 Background Service in Action**  
-<img src="assets/images/icon.png" width="300"/>  
-
-</br>
-<img src="assets/images/screenshot_1.jpeg" width="250"/> <img src="assets/images/Screenshot_2.jpeg" width="250"/>  <img src="assets/images/Screenshot_3.jpeg" width="250"/> 
+<img src="assets/images/screenshot_1.jpeg" width="240"/> <img src="assets/images/Screenshot_2.jpeg" width="240"/>  <img src="assets/images/Screenshot_3.jpeg" width="240"/> 
 
 ---
 
