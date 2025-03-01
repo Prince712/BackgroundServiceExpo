@@ -13,7 +13,8 @@
       "infoPlist": {
         "UIBackgroundModes": [
           "fetch",
-          "audio"
+          "audio",
+          "processing"
         ]
       }
     },
@@ -26,7 +27,8 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "react-native-background-fetch"
     ],
     "experiments": {
       "typedRoutes": true
@@ -38,6 +40,12 @@
       "eas": {
         "projectId": "81b0f40d-9a07-4da3-93e2-a0c12e139f60"
       }
+    },
+    "android": {
+      "package": "com.pravin.dabekar7.backgroundservices",
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED"
+      ]
     }
   }
 }

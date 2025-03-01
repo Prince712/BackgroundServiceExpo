@@ -9,11 +9,28 @@ import { updateLastTriggered } from '../store/slices/backgroundServiceSlice';
 const BACKGROUND_FETCH_TASK = 'background-fetch';
 let sound: Audio.Sound | null = null;
 
-export async function playSound() {
-
-  console.warn("Playing sound")
-  console.log("Playing sound....")
+export async function configureAudio() {
   try {
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      staysActiveInBackground: true, // ✅ Allows background playback
+      playsInSilentModeIOS: true,    // ✅ Plays even in silent mode
+      shouldDuckAndroid: false,
+      playThroughEarpieceAndroid: false,
+    });
+    console.log("Audio mode configured.");
+  } catch (error) {
+    console.error("Error configuring audio mode:", error);
+  }
+}
+
+export async function playSound() {
+  console.warn("Playing sound");
+  console.log("Playing sound....");
+
+  try {
+    await configureAudio(); // ✅ Ensure audio is configured before playing
+
     if (sound) {
       await sound.unloadAsync();
     }
@@ -35,22 +52,16 @@ if (Platform.OS !== 'web') {
     if (!state.isEnabled) {
       return BackgroundFetch.BackgroundFetchResult.NoData;
     }
+    console.log("Background Task initiated");
 
     try {
       if (Platform.OS === 'ios') {
-        // await Notifications.scheduleNotificationAsync({
-        //   content: {
-        //     title: 'Alert',
-        //     body: 'Background service alert',
-        //     sound: 'alert.mp3',
-        //   },
-        //   trigger: null,
-        // });
+        await sendNotification(); // ✅ Uses notification on iOS for background alert
       } else {
         await playSound();
       }
       store.dispatch(updateLastTriggered());
-      return BackgroundFetch.BackgroundFetchResult.NewData;;
+      return BackgroundFetch.BackgroundFetchResult.NewData;
     } catch (error) {
       console.error('Background task error:', error);
       return BackgroundFetch.BackgroundFetchResult.Failed;
@@ -63,7 +74,7 @@ export async function sendNotification() {
     content: {
       title: 'Alert',
       body: 'Background service alert',
-      sound: 'alert.mp3',
+      sound: 'default', // ✅ Ensures a sound is played
     },
     trigger: null,
   });
@@ -76,14 +87,12 @@ export async function registerBackgroundFetch() {
   }
 
   try {
-    console.log("Registerting.....................",BACKGROUND_FETCH_TASK);
-   return await BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-      minimumInterval: 120, // 2 minutes
+    console.log("Registering background fetch...");
+    return await BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+      minimumInterval: 120, // ✅ Runs every 2 minutes
       stopOnTerminate: false,
       startOnBoot: true,
     });
-   
-    
   } catch (error) {
     console.error('Task registration failed:', error);
   }
@@ -96,7 +105,6 @@ export async function unregisterBackgroundFetch() {
   }
 
   try {
-    //  return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK)
     const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_FETCH_TASK);
     console.log(`Is task registered? ${isRegistered}`);
 
@@ -106,9 +114,7 @@ export async function unregisterBackgroundFetch() {
     }
     return await BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
   } catch (error) {
-   
-    // console.error('Task unregistration failed:', error);
-    return error;
+    console.error('Task unregistration failed:', error);
   }
 }
 
@@ -118,7 +124,6 @@ export async function setupNotifications() {
     return;
   }
 
-  // await Notifications.requestPermissionsAsync();
   const { status } = await Notifications.getPermissionsAsync();
   if (status !== 'granted') {
     const { status: newStatus } = await Notifications.requestPermissionsAsync();
@@ -127,6 +132,7 @@ export async function setupNotifications() {
       return;
     }
   }
+
   if (Platform.OS === 'ios') {
     await Notifications.setNotificationHandler({
       handleNotification: async () => ({
@@ -136,11 +142,4 @@ export async function setupNotifications() {
       }),
     });
   }
-  // await Notifications.setNotificationHandler({
-  //   handleNotification: async () => ({
-  //     shouldShowAlert: true,
-  //     shouldPlaySound: true,
-  //     shouldSetBadge: false,
-  //   }),
-  // });
 }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface BackgroundServiceState {
+export interface BackgroundServiceState {
   isEnabled: boolean;
   interval: number; // in minutes
   lastTriggered: number | null;

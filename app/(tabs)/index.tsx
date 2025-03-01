@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Switch, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
 import { toggleService, setAlertInterval ,updateLastTriggered} from "../store/slices/backgroundServiceSlice";
 import {
   registerBackgroundFetch,
@@ -12,9 +12,10 @@ import {
 } from "../services/backgroundService";
 import Slider from "@react-native-community/slider";
 import Feather from '@expo/vector-icons/Feather';
+// import { initBackgroundFetch } from "../services/backgroundServicesNative"; for ios u need to comment this
 
 export default function HomeScreen() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { isEnabled, interval, lastTriggered } = useSelector(
     (state: RootState) => state.backgroundService
   );
@@ -27,6 +28,7 @@ export default function HomeScreen() {
       try {
         if (isEnabled) {
           await registerBackgroundFetch();
+          // initBackgroundFetch(); // tried with native.ts File config. 
         } else {
           await unregisterBackgroundFetch();
         }
